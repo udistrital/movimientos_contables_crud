@@ -18,8 +18,8 @@ type Transaccion struct {
 	EstadoId          int       `orm:"column(estado_id)"`
 	FechaTransaccion  time.Time `orm:"column(fecha_transaccion);type(timestamp without time zone)"`
 	Activo            bool      `orm:"column(activo)"`
-	FechaCreacion     time.Time `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion time.Time `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion     string    `orm:"column(fecha_creacion);type(timestamp without time zone)"`
+	FechaModificacion string    `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 }
 
 func (t *Transaccion) TableName() string {

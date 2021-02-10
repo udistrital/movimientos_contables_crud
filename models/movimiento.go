@@ -5,7 +5,6 @@ import (
 	"fmt"
 	"reflect"
 	"strings"
-	"time"
 
 	"github.com/astaxie/beego/orm"
 )
@@ -19,8 +18,8 @@ type Movimiento struct {
 	Valor             float64      `orm:"column(valor)"`
 	Descripcion       string       `orm:"column(descripcion);null"`
 	Activo            bool         `orm:"column(activo)"`
-	FechaCreacion     time.Time    `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion time.Time    `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
+	FechaCreacion     string       `orm:"column(fecha_creacion);type(timestamp without time zone)"`
+	FechaModificacion string       `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 	TransaccionId     *Transaccion `orm:"column(transaccion_id);rel(fk)"`
 }
 
