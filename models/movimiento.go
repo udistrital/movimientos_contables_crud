@@ -11,7 +11,7 @@ import (
 
 type Movimiento struct {
 	Id                int          `orm:"column(id);pk;auto"`
-	TerceroId         int          `orm:"column(tercero_id)"`
+	TerceroId         int          `orm:"column(tercero_id);null"`
 	CuentaId          string       `orm:"column(cuenta_id)"`
 	NombreCuenta      string       `orm:"column(nombre_cuenta)"`
 	TipoMovimientoId  int          `orm:"column(tipo_movimiento_id)"`

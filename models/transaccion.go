@@ -15,6 +15,7 @@ type Transaccion struct {
 	ConsecutivoId     int       `orm:"column(consecutivo_id)"`
 	Etiquetas         string    `orm:"column(etiquetas);type(json);null"`
 	Descripcion       string    `orm:"column(descripcion);null"`
+	ErrorTransaccion  string    `orm:"column(error_transaccion);null"`
 	EstadoId          int       `orm:"column(estado_id)"`
 	FechaTransaccion  time.Time `orm:"column(fecha_transaccion);type(timestamp without time zone)"`
 	Activo            bool      `orm:"column(activo)"`

@@ -281,6 +281,8 @@ definitions:
         format: int64
       Descripcion:
         type: string
+      ErrorTransaccion:
+        type: string
       EstadoId:
         type: integer
         format: int64

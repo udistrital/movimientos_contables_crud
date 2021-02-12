@@ -12,7 +12,7 @@ set SEARCH_PATH to pg_catalog,public,movimientos_contables;
 -- DROP TABLE IF EXISTS movimientos_contables.movimiento CASCADE;
 CREATE TABLE movimientos_contables.movimiento (
 	id serial NOT NULL,
-	tercero_id integer NOT NULL,
+	tercero_id integer,
 	cuenta_id text NOT NULL,
 	nombre_cuenta text NOT NULL,
 	tipo_movimiento_id integer NOT NULL,
@@ -31,7 +31,7 @@ COMMENT ON TABLE movimientos_contables.movimiento IS 'Tabla que almacena la info
 -- ddl-end --
 COMMENT ON COLUMN movimientos_contables.movimiento.id IS 'Identificador del movimiento';
 -- ddl-end --
-COMMENT ON COLUMN movimientos_contables.movimiento.tercero_id IS 'Campo obligatorio que referencia al esquema terceros. Hace referencia al id  de la persona natural o juridica vinculada al movimiento';
+COMMENT ON COLUMN movimientos_contables.movimiento.tercero_id IS 'Campo opcional que referencia al esquema terceros. Hace referencia al id  de la persona natural o juridica vinculada al movimiento';
 -- ddl-end --
 COMMENT ON COLUMN movimientos_contables.movimiento.cuenta_id IS 'Campo obligatorio que referencia al api plan_cuentas_mongo_crud. Hace referencia al id  o numero de cuenta vinculado al movimiento';
 -- ddl-end --
@@ -65,6 +65,7 @@ CREATE TABLE movimientos_contables.transaccion (
 	consecutivo_id integer NOT NULL,
 	etiquetas json,
 	descripcion character varying(250),
+	error_transaccion character varying(250),
 	estado_id integer NOT NULL,
 	fecha_transaccion timestamp NOT NULL,
 	activo boolean NOT NULL,
@@ -84,6 +85,8 @@ COMMENT ON COLUMN movimientos_contables.transaccion.consecutivo_id IS 'Campo obl
 COMMENT ON COLUMN movimientos_contables.transaccion.etiquetas IS 'Campo opcional de tipo json que almacena los diferentes campos que pueden estar asociados al encabezado de una transaccion ';
 -- ddl-end --
 COMMENT ON COLUMN movimientos_contables.transaccion.descripcion IS 'Campo opcional que indica la descripcion de la transaccion';
+-- ddl-end --
+COMMENT ON COLUMN movimientos_contables.transaccion.error_transaccion IS 'Campo opcional que indica un posible error que puede ocurrir durante la transaccion';
 -- ddl-end --
 COMMENT ON COLUMN movimientos_contables.transaccion.estado_id IS 'Campo obligatorio que referencia al esquema parametros a la tabla parametro. Hace referencia al id del estado asociado a la transaccion';
 -- ddl-end --

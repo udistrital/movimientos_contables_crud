@@ -420,6 +420,9 @@
                 "Descripcion": {
                     "type": "string"
                 },
+                "ErrorTransaccion": {
+                    "type": "string"
+                },
                 "EstadoId": {
                     "type": "integer",
                     "format": "int64"
