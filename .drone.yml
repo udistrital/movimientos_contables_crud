@@ -1,16 +1,16 @@
 workspace:
-    base: /go
-    path: src/github.com/udistrital/${DRONE_REPO##udistrital/}
-    when:
-        branch:
-        - develop
-        - release/*
-        - master
+  base: /go
+  path: src/github.com/udistrital/${DRONE_REPO##udistrital/}
+  when:
+      branch:
+      - develop
+      - release/*
+      - master
 
-  kind: pipeline
-  name: oas_api_ci
-  
-  steps:
+kind: pipeline
+name: oas_api_ci
+
+steps:
   - name: check_readme
     image: jjvargass/qa_develoment:latest
     commands:
@@ -22,7 +22,7 @@ workspace:
       - release/*
       event:
       - push
-  
+ 
   - name: check_branch
     image: jjvargass/qa_develoment:latest
     commands:
