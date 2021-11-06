@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+CAUTION: Do not modify this file unless you know what you are doing.
+         Unexpected results may occur if the code is changed deliberately.
+-->
+<dbmodel pgmodeler-ver="0.9.1-beta" last-position="0,0" last-zoom="1"
+	 default-schema="public" default-owner="postgres">
+<role name="test"
+      superuser="true"
+      createdb="true"
+      replication="true"
+      createrole="true"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********"
+      sql-disabled="true">
+</role>
+
+<role name="desarrollooas"
+      superuser="true"
+      createdb="true"
+      replication="true"
+      createrole="true"
+      inherit="true"
+      login="true"
+      encrypted="true"
+      password="********">
+</role>
+
+<database name="test" encoding="UTF8" lc-collate="en_US.utf8" lc-ctype="en_US.utf8">
+	<role name="test"/>
+	<tablespace name="pg_default"/>
+</database>
+
+<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+</schema>
+
+<schema name="movimientos_contables" rect-visible="true" fill-color="#1310c1">
+	<role name="test"/>
+</schema>
+
+<sequence name="movimiento_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="movimientos_contables"/>
+	<role name="test"/>
+</sequence>
+
+<table name="movimiento">
+	<schema name="movimientos_contables"/>
+	<role name="test"/>
+	<comment><![CDATA[Tabla que almacena la informacion de los movimientos contables asociados a una transaccion]]></comment>
+	<position x="640" y="147"/>
+	<column name="id" not-null="true" sequence="movimientos_contables.movimiento_id_seq">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Identificador del movimiento]]></comment>
+	</column>
+	<column name="tercero_id">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Campo opcional que referencia al esquema terceros. Hace referencia al id  de la persona natural o juridica vinculada al movimiento]]></comment>
+	</column>
+	<column name="cuenta_id" not-null="true">
+		<type name="text" length="0"/>
+		<comment><![CDATA[Campo obligatorio que referencia al api plan_cuentas_mongo_crud. Hace referencia al id  o numero de cuenta vinculado al movimiento]]></comment>
+	</column>
+	<column name="nombre_cuenta" not-null="true">
+		<type name="text" length="0"/>
+		<comment><![CDATA[Campo obligatorio que indica el nombre de la cuenta vinculada al movimiento]]></comment>
+	</column>
+	<column name="tipo_movimiento_id" not-null="true">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Campo obligatorio que referencia al esquema parametros a la tabla parametro. Hace referencia al id del tipo de movimiento asociado (debito o credita)]]></comment>
+	</column>
+	<column name="valor" not-null="true">
+		<type name="numeric" length="20" precision="7"/>
+		<comment><![CDATA[Campo obligatorio que relaciona el valor asociado al movimiento]]></comment>
+	</column>
+	<column name="descripcion">
+		<type name="character varying" length="250"/>
+		<comment><![CDATA[Campo opcional que indica la descripcion del movimiento]]></comment>
+	</column>
+	<column name="activo" not-null="true">
+		<type name="boolean" length="0"/>
+		<comment><![CDATA[Campo para indicar el estado del registro]]></comment>
+	</column>
+	<column name="fecha_creacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de creación del registro]]></comment>
+	</column>
+	<column name="fecha_modificacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de la última modificación del registro]]></comment>
+	</column>
+	<column name="transaccion_id" not-null="true">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Referencia foranea a la tabla transaccion]]></comment>
+	</column>
+	<constraint name="pk_movimiento" type="pk-constr" table="movimientos_contables.movimiento">
+		<columns names="id" ref-type="src-columns"/>
+		<comment><![CDATA[Llave primaria de la tabla movimiento]]></comment>
+	</constraint>
+</table>
+
+<sequence name="transaccion_id_seq"
+	 start="1" increment="1"
+	 min-value="1" max-value="2147483647"
+	 cache="1" cycle="false">
+	<schema name="movimientos_contables"/>
+	<role name="test"/>
+</sequence>
+
+<table name="transaccion">
+	<schema name="movimientos_contables"/>
+	<role name="test"/>
+	<comment><![CDATA[Tabla que almacena la informacion general de una transaccion]]></comment>
+	<position x="220" y="167"/>
+	<column name="id" not-null="true" sequence="movimientos_contables.transaccion_id_seq">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Identificador de la transaccion]]></comment>
+	</column>
+	<column name="consecutivo_id" not-null="true">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Campo obligatorio que referencia al esquema consecutivos. Hace referencia al id  del consecutivo generado para la transaccion]]></comment>
+	</column>
+	<column name="etiquetas">
+		<type name="json" length="0"/>
+		<comment><![CDATA[Campo opcional de tipo json que almacena los diferentes campos que pueden estar asociados al encabezado de una transaccion ]]></comment>
+	</column>
+	<column name="descripcion">
+		<type name="character varying" length="250"/>
+		<comment><![CDATA[Campo opcional que indica la descripcion de la transaccion]]></comment>
+	</column>
+	<column name="error_transaccion">
+		<type name="text" length="0"/>
+		<comment><![CDATA[Campo opcional que indica un posible error que puede ocurrir durante la transaccion]]></comment>
+	</column>
+	<column name="estado_id" not-null="true">
+		<type name="integer" length="0"/>
+		<comment><![CDATA[Campo obligatorio que referencia al esquema parametros a la tabla parametro. Hace referencia al id del estado asociado a la transaccion]]></comment>
+	</column>
+	<column name="fecha_transaccion" not-null="true">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de realizacion de la transaccion]]></comment>
+	</column>
+	<column name="activo" not-null="true">
+		<type name="boolean" length="0"/>
+		<comment><![CDATA[Campo para indicar el estado del registro]]></comment>
+	</column>
+	<column name="fecha_creacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de creación del registro]]></comment>
+	</column>
+	<column name="fecha_modificacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fecha de la última modificación del registro]]></comment>
+	</column>
+	<constraint name="pk_transaccion" type="pk-constr" table="movimientos_contables.transaccion">
+		<columns names="id" ref-type="src-columns"/>
+		<comment><![CDATA[Llave primaria de la tabla transaccion]]></comment>
+	</constraint>
+</table>
+
+<constraint name="fk_transaccion_movimiento" type="fk-constr" comparison-type="MATCH FULL"
+	 upd-action="CASCADE" del-action="RESTRICT" ref-table="movimientos_contables.transaccion" table="movimientos_contables.movimiento">
+	<columns names="transaccion_id" ref-type="src-columns"/>
+	<columns names="id" ref-type="dst-columns"/>
+</constraint>
+
+<relationship name="rel_movimiento_transaccion" type="relfk"
+	 custom-color="#e97e0b"
+	 src-table="movimientos_contables.movimiento"
+	 dst-table="movimientos_contables.transaccion"
+	 src-required="false" dst-required="false"/>
+
+</dbmodel>

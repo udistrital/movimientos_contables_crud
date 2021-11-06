@@ -82,7 +82,10 @@ Pruebas unitarias
 
 ## Modelo de Datos
 
-[Modelo de Datos movimientos_contables_crud](/sql/modelo_movimientos_contables_crud.png)
+[SQL](sql/modelo_movimientos_contables_crud.png) -
+[PNG](sql/modelo_movimientos_contables_crud.png) -
+[SVG](sql/movimientos_contables.svg) -
+[PGmodeler](sql/movimientos_contables.dbm)
 
 ## Estado CI
 
