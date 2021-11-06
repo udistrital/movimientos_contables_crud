@@ -26,7 +26,7 @@ MOVIMIENTOS_CONTABLES_CRUD_PGDB=[Nombre de Base de Datos]
 MOVIMIENTOS_CONTABLES_CRUD_PGSCHEMA=[Nombre del Esquema de Base de Datos]
 ```
 
-**NOTA:** Las variables se pueden ver en el fichero conf/app.conf y están identificadas con MOVIMIENTOS*CONTABLES_CRUD*...
+**NOTA:** Las variables se pueden ver en el fichero conf/app.conf y están identificadas con `MOVIMIENTOS_CONTABLES_CRUD...`
 
 ### Ejecución del Proyecto
 
