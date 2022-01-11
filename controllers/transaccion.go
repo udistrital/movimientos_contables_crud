@@ -136,10 +136,13 @@ func (c *TransaccionController) GetAll() {
 		c.Data["mesaage"] = "Error service GetAll: The request contains an incorrect parameter or no record exists"
 		c.Abort("404")
 	} else {
-		if l == nil {
-			l = append(l, map[string]interface{}{})
+		var data interface{}
+		if l != nil {
+			data = l
+		} else {
+			data = []interface{}{}
 		}
-		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Request successful", "Data": l}
+		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Request successful", "Data": data}
 	}
 	c.ServeJSON()
 }
