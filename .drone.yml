@@ -71,20 +71,6 @@ steps:
       event:
       - push
 
-  - name: go_build
-    image: golang:1.14
-    commands:
-    - go get -t
-    - GOOS=linux GOARCH=amd64 go build -o main
-    when:
-      branch:
-      - develop
-      - feature/*
-      - release/*
-      - master
-      event:
-      - push
-
   - name: run_sonar_scanner
     image: aosapps/drone-sonar-plugin
     settings:
@@ -92,6 +78,22 @@ steps:
         from_secret: SONAR_HOST
       sonar_token:
         from_secret: SONAR_TOKEN
+
+  - name: go_build
+    image: golang:1.14
+    commands:
+    - go get -t
+    - GOOS=linux GOARCH=amd64 go build -o main
+    when:
+      branch:
+      - dependabot/**
+      - develop
+      - feature/*
+      - hotfix/*
+      - master
+      - release/*
+      event:
+      - push
 
   - name: beego_migrate
     image: golang:1.14
