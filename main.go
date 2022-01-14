@@ -1,13 +1,15 @@
 package main
 
 import (
-	_ "github.com/udistrital/movimientos_contables_crud/routers"
-
 	"github.com/astaxie/beego"
 	"github.com/astaxie/beego/orm"
 	"github.com/astaxie/beego/plugins/cors"
 	_ "github.com/lib/pq"
+
+	apistatus "github.com/udistrital/utils_oas/apiStatusLib"
 	"github.com/udistrital/utils_oas/customerrorv2"
+
+	_ "github.com/udistrital/movimientos_contables_crud/routers"
 )
 
 func main() {
@@ -36,5 +38,6 @@ func main() {
 		AllowCredentials: true,
 	}))
 	beego.ErrorController(&customerrorv2.CustomErrorController{})
+	apistatus.Init()
 	beego.Run()
 }
