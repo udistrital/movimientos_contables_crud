@@ -82,8 +82,8 @@ Pruebas unitarias
 
 ## Modelo de Datos
 
-[SVG](sql/movimientos_contables.svg) -
-[PGmodeler](sql/movimientos_contables.dbm)
+[SVG](database/movimientos_contables.svg) -
+[PGmodeler](database/movimientos_contables.dbm)
 
 ## Estado CI
 
