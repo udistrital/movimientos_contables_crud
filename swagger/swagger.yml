@@ -261,6 +261,12 @@ definitions:
         format: int64
       NombreCuenta:
         type: string
+      NuevoSaldo:
+        type: number
+        format: double
+      SaldoAnterior:
+        type: number
+        format: double
       TerceroId:
         type: integer
         format: int64

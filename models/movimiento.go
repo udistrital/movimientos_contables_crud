@@ -21,6 +21,8 @@ type Movimiento struct {
 	FechaCreacion     string       `orm:"column(fecha_creacion);type(timestamp without time zone)"`
 	FechaModificacion string       `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 	TransaccionId     *Transaccion `orm:"column(transaccion_id);rel(fk)"`
+	SaldoAnterior     float64      `orm:"column(saldo_anterior);null"`
+	NuevoSaldo        float64      `orm:"column(nuevo_saldo);null"`
 }
 
 func (t *Movimiento) TableName() string {
@@ -35,6 +37,7 @@ func init() {
 // last inserted Id on success.
 func AddMovimiento(m *Movimiento) (id int64, err error) {
 	o := orm.NewOrm()
+
 	id, err = o.Insert(m)
 	return
 }
