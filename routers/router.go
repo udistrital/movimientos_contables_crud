@@ -27,6 +27,11 @@ func init() {
 				&controllers.MovimientoController{},
 			),
 		),
+		beego.NSNamespace("/saldo",
+			beego.NSInclude(
+				&controllers.SaldoController{},
+			),
+		),
 	)
 	beego.AddNamespace(ns)
 }

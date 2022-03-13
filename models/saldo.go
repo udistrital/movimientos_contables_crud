@@ -7,92 +7,50 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego/orm"
-	"github.com/udistrital/utils_oas/time_bogota"
 )
 
-type Movimiento struct {
-	Id                int          `orm:"column(id);pk;auto"`
-	TerceroId         int          `orm:"column(tercero_id);null"`
-	CuentaId          string       `orm:"column(cuenta_id)"`
-	NombreCuenta      string       `orm:"column(nombre_cuenta)"`
-	TipoMovimientoId  int          `orm:"column(tipo_movimiento_id)"`
-	Valor             float64      `orm:"column(valor)"`
-	Descripcion       string       `orm:"column(descripcion);null"`
-	Activo            bool         `orm:"column(activo)"`
-	FechaCreacion     string       `orm:"column(fecha_creacion);type(timestamp without time zone)"`
-	FechaModificacion string       `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
-	TransaccionId     *Transaccion `orm:"column(transaccion_id);rel(fk)"`
-	SaldoAnterior     float64      `orm:"column(saldo_anterior);null"`
-	NuevoSaldo        float64      `orm:"column(nuevo_saldo);null"`
+type Saldo struct {
+	Id                int     `orm:"column(id);pk;auto"`
+	CuentaId          string  `orm:"column(cuenta_id);unique"`
+	Debito            float64 `orm:"column(debito)"`
+	Credito           float64 `orm:"column(credito)"`
+	FechaCreacion     string  `orm:"column(fecha_creacion);type(timestamp without time zone)"`
+	FechaModificacion string  `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 }
 
-func (t *Movimiento) TableName() string {
-	return "movimiento"
+func (t *Saldo) TableName() string {
+	return "saldo"
 }
 
 func init() {
-	orm.RegisterModel(new(Movimiento))
+	orm.RegisterModel(new(Saldo))
 }
 
-// AddMovimiento insert a new Movimiento into database and returns
+// AddSaldo insert a new Saldo into database and returns
 // last inserted Id on success.
-func AddMovimiento(m *Movimiento) (id int64, err error) {
-	s := Saldo{
-		CuentaId:          m.CuentaId,
-		Debito:            0,
-		Credito:           0,
-		FechaCreacion:     time_bogota.TiempoBogotaFormato(),
-		FechaModificacion: time_bogota.TiempoBogotaFormato(),
-	}
-	valor := m.Valor
-	debito := m.TipoMovimientoId == 344
+func AddSaldo(m *Saldo) (id int64, err error) {
 	o := orm.NewOrm()
-	if err = o.Begin(); err == nil {
-
-		if _, _, err = o.ReadOrCreate(&s, "cuenta_id"); err != nil {
-			o.Rollback()
-			return
-		}
-		if debito {
-			m.SaldoAnterior = s.Debito
-			s.Debito += valor
-			m.NuevoSaldo = s.Debito
-		} else {
-			m.SaldoAnterior = s.Credito
-			s.Credito += valor
-			m.NuevoSaldo = s.Credito
-		}
-		s.FechaModificacion = time_bogota.TiempoBogotaFormato()
-		if _, err = o.Update(&s, "debito", "credito", "fecha_modificacion"); err != nil {
-			o.Rollback()
-			return
-		}
-		if id, err = o.Insert(m); err != nil {
-			o.Rollback()
-			return
-		}
-		o.Commit()
-	}
+	id, err = o.Insert(m)
 	return
 }
 
-// GetMovimientoById retrieves Movimiento by Id. Returns error if
+// GetSaldoById retrieves Saldo by Id. Returns error if
 // Id doesn't exist
-func GetMovimientoById(id int) (v *Movimiento, err error) {
+func GetSaldoById(id int) (v *Saldo, err error) {
 	o := orm.NewOrm()
-	v = &Movimiento{Id: id}
+	v = &Saldo{Id: id}
 	if err = o.Read(v); err == nil {
 		return v, nil
 	}
 	return nil, err
 }
 
-// GetAllMovimiento retrieves all Movimiento matches certain condition. Returns empty list if
+// GetAllSaldo retrieves all Saldo matches certain condition. Returns empty list if
 // no records exist
-func GetAllMovimiento(query map[string]string, fields []string, sortby []string, order []string,
+func GetAllSaldo(query map[string]string, fields []string, sortby []string, order []string,
 	offset int64, limit int64) (ml []interface{}, err error) {
 	o := orm.NewOrm()
-	qs := o.QueryTable(new(Movimiento))
+	qs := o.QueryTable(new(Saldo))
 	// query k=v
 	for k, v := range query {
 		// rewrite dot-notation to Object__Attribute
@@ -142,7 +100,7 @@ func GetAllMovimiento(query map[string]string, fields []string, sortby []string,
 		}
 	}
 
-	var l []Movimiento
+	var l []Saldo
 	qs = qs.OrderBy(sortFields...)
 	if _, err = qs.Limit(limit, offset).All(&l, fields...); err == nil {
 		if len(fields) == 0 {
@@ -165,11 +123,11 @@ func GetAllMovimiento(query map[string]string, fields []string, sortby []string,
 	return nil, err
 }
 
-// UpdateMovimiento updates Movimiento by Id and returns error if
+// UpdateSaldo updates Saldo by Id and returns error if
 // the record to be updated doesn't exist
-func UpdateMovimientoById(m *Movimiento) (err error) {
+func UpdateSaldoById(m *Saldo) (err error) {
 	o := orm.NewOrm()
-	v := Movimiento{Id: m.Id}
+	v := Saldo{Id: m.Id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
@@ -180,15 +138,15 @@ func UpdateMovimientoById(m *Movimiento) (err error) {
 	return
 }
 
-// DeleteMovimiento deletes Movimiento by Id and returns error if
+// DeleteSaldo deletes Saldo by Id and returns error if
 // the record to be deleted doesn't exist
-func DeleteMovimiento(id int) (err error) {
+func DeleteSaldo(id int) (err error) {
 	o := orm.NewOrm()
-	v := Movimiento{Id: id}
+	v := Saldo{Id: id}
 	// ascertain id exists in the database
 	if err = o.Read(&v); err == nil {
 		var num int64
-		if num, err = o.Delete(&Movimiento{Id: id}); err == nil {
+		if num, err = o.Delete(&Saldo{Id: id}); err == nil {
 			fmt.Println("Number of records deleted in database:", num)
 		}
 	}
