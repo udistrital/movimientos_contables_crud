@@ -525,6 +525,10 @@
                 "Id": {
                     "type": "integer",
                     "format": "int64"
+                },
+                "Saldo": {
+                    "type": "number",
+                    "format": "double"
                 }
             }
         },

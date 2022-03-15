@@ -3,6 +3,7 @@ CREATE TABLE movimientos_contables.saldo (
 	cuenta_id text NOT NULL UNIQUE,
 	debito numeric(20,7) NOT NULL,
 	credito numeric(20,7) NOT NULL,
+	saldo numeric(20,7) NOT NULL,
 	fecha_creacion timestamp NOT NULL DEFAULT now(),
 	fecha_modificacion timestamp NOT NULL DEFAULT now(),
 	CONSTRAINT pk_saldo PRIMARY KEY (id)

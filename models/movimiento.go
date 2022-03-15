@@ -41,6 +41,7 @@ func AddMovimiento(m *Movimiento) (id int64, err error) {
 		CuentaId:          m.CuentaId,
 		Debito:            0,
 		Credito:           0,
+		Saldo:             0,
 		FechaCreacion:     time_bogota.TiempoBogotaFormato(),
 		FechaModificacion: time_bogota.TiempoBogotaFormato(),
 	}
@@ -54,16 +55,16 @@ func AddMovimiento(m *Movimiento) (id int64, err error) {
 			return
 		}
 		if debito {
-			m.SaldoAnterior = s.Debito
 			s.Debito += valor
-			m.NuevoSaldo = s.Debito
 		} else {
-			m.SaldoAnterior = s.Credito
 			s.Credito += valor
-			m.NuevoSaldo = s.Credito
 		}
+		m.SaldoAnterior = s.Saldo
+		s.Saldo = s.Debito - s.Credito
+		m.NuevoSaldo = s.Saldo
+
 		s.FechaModificacion = time_bogota.TiempoBogotaFormato()
-		if _, err = o.Update(&s, "debito", "credito", "fecha_modificacion"); err != nil {
+		if _, err = o.Update(&s, "debito", "credito", "fecha_modificacion", "saldo"); err != nil {
 			o.Rollback()
 			return
 		}

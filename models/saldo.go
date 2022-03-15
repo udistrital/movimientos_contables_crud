@@ -14,6 +14,7 @@ type Saldo struct {
 	CuentaId          string  `orm:"column(cuenta_id);unique"`
 	Debito            float64 `orm:"column(debito)"`
 	Credito           float64 `orm:"column(credito)"`
+	Saldo             float64 `orm:"column(saldo)"`
 	FechaCreacion     string  `orm:"column(fecha_creacion);type(timestamp without time zone)"`
 	FechaModificacion string  `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 }

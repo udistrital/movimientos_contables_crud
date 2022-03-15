@@ -355,6 +355,9 @@ definitions:
       Id:
         type: integer
         format: int64
+      Saldo:
+        type: number
+        format: double
   models.Transaccion:
     title: Transaccion
     type: object
