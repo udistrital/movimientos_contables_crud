@@ -12,9 +12,9 @@ import (
 type Saldo struct {
 	Id                int     `orm:"column(id);pk;auto"`
 	CuentaId          string  `orm:"column(cuenta_id);unique"`
-	Debito            float64 `orm:"column(debito)"`
-	Credito           float64 `orm:"column(credito)"`
-	Saldo             float64 `orm:"column(saldo)"`
+	Debito            float64 `orm:"column(debito);digits(20);decimals(7)"`
+	Credito           float64 `orm:"column(credito);digits(20);decimals(7)"`
+	Saldo             float64 `orm:"column(saldo);digits(20);decimals(7)"`
 	FechaCreacion     string  `orm:"column(fecha_creacion);type(timestamp without time zone)"`
 	FechaModificacion string  `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 }

@@ -9,6 +9,7 @@ import (
 	"github.com/udistrital/movimientos_contables_crud/models"
 
 	"github.com/astaxie/beego"
+	"github.com/astaxie/beego/logs"
 )
 
 // SaldoController operations for Saldo
@@ -30,12 +31,16 @@ func (c *SaldoController) Post() {
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if _, err := models.AddSaldo(&v); err == nil {
 			c.Ctx.Output.SetStatus(201)
-			c.Data["json"] = v
+			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "201", "Message": "Registration successful", "Data": v}
 		} else {
-			c.Data["json"] = err.Error()
+			logs.Error(err)
+			c.Data["mesaage"] = "Error service: The request contains an incorrect parameter or no record exists"
+			c.Abort("404")
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		logs.Error(err)
+		c.Data["mesaage"] = "Error service: The request contains an incorrect parameter or no record exists"
+		c.Abort("404")
 	}
 	c.ServeJSON()
 }
@@ -52,9 +57,11 @@ func (c *SaldoController) GetOne() {
 	id, _ := strconv.Atoi(idStr)
 	v, err := models.GetSaldoById(id)
 	if err != nil {
-		c.Data["json"] = err.Error()
+		logs.Error(err)
+		c.Data["mesaage"] = "Error service: The request contains an incorrect parameter or no record exists"
+		c.Abort("404")
 	} else {
-		c.Data["json"] = v
+		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Request successful", "Data": v}
 	}
 	c.ServeJSON()
 }
@@ -117,7 +124,13 @@ func (c *SaldoController) GetAll() {
 	if err != nil {
 		c.Data["json"] = err.Error()
 	} else {
-		c.Data["json"] = l
+		var data interface{}
+		if l != nil {
+			data = l
+		} else {
+			data = []interface{}{}
+		}
+		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Request successful", "Data": data}
 	}
 	c.ServeJSON()
 }
@@ -128,12 +141,16 @@ func (c *SaldoController) Put() {
 	v := models.Saldo{Id: id}
 	if err := json.Unmarshal(c.Ctx.Input.RequestBody, &v); err == nil {
 		if err := models.UpdateSaldoById(&v); err == nil {
-			c.Data["json"] = "OK"
+			c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Update successful", "Data": v}
 		} else {
-			c.Data["json"] = err.Error()
+			logs.Error(err)
+			c.Data["mesaage"] = "Error service Put: The request contains an incorrect data type or an invalid parameter"
+			c.Abort("400")
 		}
 	} else {
-		c.Data["json"] = err.Error()
+		logs.Error(err)
+		c.Data["mesaage"] = "Error service Put: The request contains an incorrect data type or an invalid parameter"
+		c.Abort("400")
 	}
 	c.ServeJSON()
 }
@@ -142,9 +159,12 @@ func (c *SaldoController) Delete() {
 	idStr := c.Ctx.Input.Param(":id")
 	id, _ := strconv.Atoi(idStr)
 	if err := models.DeleteSaldo(id); err == nil {
-		c.Data["json"] = "OK"
+		d := map[string]interface{}{"Id": id}
+		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Delete successful", "Data": d}
 	} else {
-		c.Data["json"] = err.Error()
+		logs.Error(err)
+		c.Data["mesaage"] = "Error service Delete: Request contains incorrect parameter"
+		c.Abort("404")
 	}
 	c.ServeJSON()
 }
