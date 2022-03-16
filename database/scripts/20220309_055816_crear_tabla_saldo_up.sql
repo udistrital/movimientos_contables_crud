@@ -28,5 +28,5 @@ ADD COLUMN saldo_anterior numeric(20,7) NOT NULL DEFAULT 0;
 -- ddl-end --
 
 ALTER TABLE movimientos_contables.movimiento 
-ADD COLUMN nuevo_saldo numeric(20,2) NOT NULL DEFAULT 0;
+ADD COLUMN nuevo_saldo numeric(20,7) NOT NULL DEFAULT 0;
 -- ddl-end --
