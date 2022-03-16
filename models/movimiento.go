@@ -7,6 +7,7 @@ import (
 	"strings"
 
 	"github.com/astaxie/beego/orm"
+	"github.com/udistrital/utils_oas/time_bogota"
 )
 
 type Movimiento struct {
@@ -15,12 +16,14 @@ type Movimiento struct {
 	CuentaId          string       `orm:"column(cuenta_id)"`
 	NombreCuenta      string       `orm:"column(nombre_cuenta)"`
 	TipoMovimientoId  int          `orm:"column(tipo_movimiento_id)"`
-	Valor             float64      `orm:"column(valor)"`
+	Valor             float64      `orm:"column(valor);digits(20);decimals(7)"`
 	Descripcion       string       `orm:"column(descripcion);null"`
 	Activo            bool         `orm:"column(activo)"`
 	FechaCreacion     string       `orm:"column(fecha_creacion);type(timestamp without time zone)"`
 	FechaModificacion string       `orm:"column(fecha_modificacion);type(timestamp without time zone)"`
 	TransaccionId     *Transaccion `orm:"column(transaccion_id);rel(fk)"`
+	SaldoAnterior     float64      `orm:"column(saldo_anterior);digits(20);decimals(7);null"`
+	NuevoSaldo        float64      `orm:"column(nuevo_saldo);digits(20);decimals(7);null"`
 }
 
 func (t *Movimiento) TableName() string {
@@ -34,8 +37,43 @@ func init() {
 // AddMovimiento insert a new Movimiento into database and returns
 // last inserted Id on success.
 func AddMovimiento(m *Movimiento) (id int64, err error) {
+	s := Saldo{
+		CuentaId:          m.CuentaId,
+		Debito:            0,
+		Credito:           0,
+		Saldo:             0,
+		FechaCreacion:     time_bogota.TiempoBogotaFormato(),
+		FechaModificacion: time_bogota.TiempoBogotaFormato(),
+	}
+	valor := m.Valor
+	debito := m.TipoMovimientoId == 344
 	o := orm.NewOrm()
-	id, err = o.Insert(m)
+	if err = o.Begin(); err == nil {
+
+		if _, _, err = o.ReadOrCreate(&s, "cuenta_id"); err != nil {
+			o.Rollback()
+			return
+		}
+		if debito {
+			s.Debito += valor
+		} else {
+			s.Credito += valor
+		}
+		m.SaldoAnterior = s.Saldo
+		s.Saldo = s.Debito - s.Credito
+		m.NuevoSaldo = s.Saldo
+
+		s.FechaModificacion = time_bogota.TiempoBogotaFormato()
+		if _, err = o.Update(&s, "debito", "credito", "fecha_modificacion", "saldo"); err != nil {
+			o.Rollback()
+			return
+		}
+		if id, err = o.Insert(m); err != nil {
+			o.Rollback()
+			return
+		}
+		o.Commit()
+	}
 	return
 }
 
