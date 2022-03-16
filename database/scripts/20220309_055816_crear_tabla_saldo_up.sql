@@ -24,7 +24,7 @@ COMMENT ON CONSTRAINT pk_saldo ON movimientos_contables.saldo  IS 'Llave primari
 -- ddl-end --
 
 ALTER TABLE movimientos_contables.movimiento 
-ADD COLUMN saldo_anterior numeric(20,2) NOT NULL DEFAULT 0;
+ADD COLUMN saldo_anterior numeric(20,7) NOT NULL DEFAULT 0;
 -- ddl-end --
 
 ALTER TABLE movimientos_contables.movimiento 
