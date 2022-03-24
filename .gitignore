@@ -1,0 +1,21 @@
+# Temporales y binarios
+*.tmp
+*.exe
+*~
+*.zip
+*.log
+movimientos_contables_crud
+main
+
+# IDE
+.vscode
+
+# otros
+.scannerwork/
+swagger/**
+!swagger/swagger.json
+!swagger/swagger.yml
+
+# variables de entorno
+*.env
+!template.env
