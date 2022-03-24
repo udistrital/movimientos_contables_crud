@@ -24,7 +24,7 @@ func init() {
 // Run the migrations
 func (m *CrearTablaSaldo_20220309_055816) Up() {
 	// use m.SQL("CREATE TABLE ...") to make schema update
-	file, err := ioutil.ReadFile("../scripts/20210304_182241_modificar_tabla_transaccion_up.sql")
+	file, err := ioutil.ReadFile("../scripts/20220309_055816_crear_tabla_saldo_up.sql")
 
 	if err != nil {
 		// handle error
@@ -44,7 +44,7 @@ func (m *CrearTablaSaldo_20220309_055816) Up() {
 // Reverse the migrations
 func (m *CrearTablaSaldo_20220309_055816) Down() {
 	// use m.SQL("DROP TABLE ...") to reverse schema update
-	file, err := ioutil.ReadFile("../scripts/20210304_182241_modificar_tabla_transaccion_down.sql")
+	file, err := ioutil.ReadFile("../scripts/20220309_055816_crear_tabla_saldo_down.sql")
 
 	if err != nil {
 		// handle error
