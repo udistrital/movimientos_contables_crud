@@ -195,3 +195,17 @@ func DeleteMovimiento(id int) (err error) {
 	}
 	return
 }
+
+// GetExistMovimientosByCuentaId ...
+func GetExistMovimientosByCuentaId(cuentaId string) (exist bool, err error) {
+	o := orm.NewOrm()
+	var movimientos []Movimiento
+	_, err = o.QueryTable("movimiento").Filter("cuenta_id", cuentaId).Limit(1, 0).All(&movimientos)
+	if err != nil {
+		return
+	}
+	if len(movimientos) > 0 {
+		exist = true
+	}
+	return
+}
