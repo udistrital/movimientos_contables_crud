@@ -126,6 +126,23 @@ paths:
           description: '{string} delete success!'
         "404":
           description: not found resource
+  /movimiento/exist/{id}:
+    get:
+      tags:
+      - movimiento
+      description: get if exists mov by cuenta id
+      operationId: MovimientoController.Get if exist by cuenta
+      parameters:
+      - in: path
+        name: id
+        description: The key for staticblock
+        required: true
+        type: string
+      responses:
+        "200":
+          description: '{bool} bool'
+        "404":
+          description: not found resource
   /saldo/:
     get:
       tags:

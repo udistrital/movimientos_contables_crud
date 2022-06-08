@@ -52,6 +52,15 @@ func init() {
             Filters: nil,
             Params: nil})
 
+    beego.GlobalControllerRouter["github.com/udistrital/movimientos_contables_crud/controllers:MovimientoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/movimientos_contables_crud/controllers:MovimientoController"],
+        beego.ControllerComments{
+            Method: "GetExistByCuenta",
+            Router: "/exist/:id",
+            AllowHTTPMethods: []string{"get"},
+            MethodParams: param.Make(),
+            Filters: nil,
+            Params: nil})
+
     beego.GlobalControllerRouter["github.com/udistrital/movimientos_contables_crud/controllers:SaldoController"] = append(beego.GlobalControllerRouter["github.com/udistrital/movimientos_contables_crud/controllers:SaldoController"],
         beego.ControllerComments{
             Method: "GetAll",
