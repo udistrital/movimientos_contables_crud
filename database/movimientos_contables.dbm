@@ -3,7 +3,7 @@
 CAUTION: Do not modify this file unless you know what you are doing.
          Unexpected results may occur if the code is changed deliberately.
 -->
-<dbmodel pgmodeler-ver="0.9.1-beta" last-position="0,0" last-zoom="1"
+<dbmodel pgmodeler-ver="0.9.2" last-position="0,0" last-zoom="1" max-obj-count="4"
 	 default-schema="public" default-owner="postgres">
 <role name="test"
       superuser="true"
@@ -12,47 +12,33 @@ CAUTION: Do not modify this file unless you know what you are doing.
       createrole="true"
       inherit="true"
       login="true"
+      bypassrls="true"
       encrypted="true"
       password="********"
       sql-disabled="true">
 </role>
 
-<role name="desarrollooas"
-      superuser="true"
-      createdb="true"
-      replication="true"
-      createrole="true"
-      inherit="true"
-      login="true"
-      encrypted="true"
-      password="********">
-</role>
-
-<database name="test" encoding="UTF8" lc-collate="en_US.utf8" lc-ctype="en_US.utf8">
+<database name="test" encoding="UTF8" lc-collate="en_US.utf8" lc-ctype="en_US.utf8" is-template="false" allow-conns="true">
 	<role name="test"/>
 	<tablespace name="pg_default"/>
 </database>
 
-<schema name="public" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
+<schema name="public" layer="0" rect-visible="true" fill-color="#e1e1e1" sql-disabled="true">
 </schema>
 
-<schema name="movimientos_contables" rect-visible="true" fill-color="#1310c1">
+<schema name="movimientos_contables" layer="0" rect-visible="true" fill-color="#1c50a8">
 	<role name="test"/>
 </schema>
 
-<sequence name="movimiento_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="2147483647"
-	 cache="1" cycle="false">
+<sequence name="movimiento_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
 	<schema name="movimientos_contables"/>
 	<role name="test"/>
 </sequence>
 
-<table name="movimiento">
+<table name="movimiento" layer="0" collapse-mode="2" max-obj-count="15">
 	<schema name="movimientos_contables"/>
-	<role name="test"/>
 	<comment><![CDATA[Tabla que almacena la informacion de los movimientos contables asociados a una transaccion]]></comment>
-	<position x="640" y="147"/>
+	<position x="820" y="280"/>
 	<column name="id" not-null="true" sequence="movimientos_contables.movimiento_id_seq">
 		<type name="integer" length="0"/>
 		<comment><![CDATA[Identificador del movimiento]]></comment>
@@ -97,25 +83,27 @@ CAUTION: Do not modify this file unless you know what you are doing.
 		<type name="integer" length="0"/>
 		<comment><![CDATA[Referencia foranea a la tabla transaccion]]></comment>
 	</column>
+	<column name="saldo_anterior" not-null="true" default-value="0">
+		<type name="numeric" length="20" precision="7"/>
+	</column>
+	<column name="nuevo_saldo" not-null="true" default-value="0">
+		<type name="numeric" length="20" precision="7"/>
+	</column>
 	<constraint name="pk_movimiento" type="pk-constr" table="movimientos_contables.movimiento">
 		<columns names="id" ref-type="src-columns"/>
 		<comment><![CDATA[Llave primaria de la tabla movimiento]]></comment>
 	</constraint>
 </table>
 
-<sequence name="transaccion_id_seq"
-	 start="1" increment="1"
-	 min-value="1" max-value="2147483647"
-	 cache="1" cycle="false">
+<sequence name="transaccion_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
 	<schema name="movimientos_contables"/>
 	<role name="test"/>
 </sequence>
 
-<table name="transaccion">
+<table name="transaccion" layer="0" collapse-mode="2" max-obj-count="12">
 	<schema name="movimientos_contables"/>
-	<role name="test"/>
 	<comment><![CDATA[Tabla que almacena la informacion general de una transaccion]]></comment>
-	<position x="220" y="167"/>
+	<position x="360" y="520"/>
 	<column name="id" not-null="true" sequence="movimientos_contables.transaccion_id_seq">
 		<type name="integer" length="0"/>
 		<comment><![CDATA[Identificador de la transaccion]]></comment>
@@ -162,16 +150,59 @@ CAUTION: Do not modify this file unless you know what you are doing.
 	</constraint>
 </table>
 
+<sequence name="saldo_id_seq" cycle="false" start="1" increment="1" min-value="1" max-value="2147483647" cache="1">
+	<schema name="movimientos_contables"/>
+	<role name="test"/>
+</sequence>
+
+<table name="saldo" layer="0" collapse-mode="2" max-obj-count="8">
+	<schema name="movimientos_contables"/>
+	<position x="380" y="280"/>
+	<column name="id" not-null="true" sequence="movimientos_contables.saldo_id_seq">
+		<type name="integer" length="0"/>
+	</column>
+	<column name="cuenta_id" not-null="true">
+		<type name="text" length="0"/>
+		<comment><![CDATA[Identificador cuenta contable]]></comment>
+	</column>
+	<column name="debito" not-null="true">
+		<type name="numeric" length="20" precision="7"/>
+		<comment><![CDATA[Sumatoria de los valores debitos asociados a la cuenta contable]]></comment>
+	</column>
+	<column name="credito" not-null="true">
+		<type name="numeric" length="20" precision="7"/>
+		<comment><![CDATA[Sumatoria de los valores creditos asociados a la cuenta contable]]></comment>
+	</column>
+	<column name="saldo" not-null="true">
+		<type name="numeric" length="20" precision="7"/>
+	</column>
+	<column name="fecha_creacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fehca de creacion del registro]]></comment>
+	</column>
+	<column name="fecha_modificacion" not-null="true" default-value="now()">
+		<type name="timestamp" length="0"/>
+		<comment><![CDATA[Fehca de modificacion del registro]]></comment>
+	</column>
+	<constraint name="pk_saldo" type="pk-constr" table="movimientos_contables.saldo">
+		<columns names="id" ref-type="src-columns"/>
+		<comment><![CDATA[Llave primaria de la tabla saldo]]></comment>
+	</constraint>
+	<constraint name="saldo_cuenta_id_key" type="uq-constr" table="movimientos_contables.saldo">
+		<columns names="cuenta_id" ref-type="src-columns"/>
+	</constraint>
+</table>
+
 <constraint name="fk_transaccion_movimiento" type="fk-constr" comparison-type="MATCH FULL"
 	 upd-action="CASCADE" del-action="RESTRICT" ref-table="movimientos_contables.transaccion" table="movimientos_contables.movimiento">
 	<columns names="transaccion_id" ref-type="src-columns"/>
 	<columns names="id" ref-type="dst-columns"/>
 </constraint>
 
-<relationship name="rel_movimiento_transaccion" type="relfk"
-	 custom-color="#e97e0b"
+<relationship name="rel_movimiento_transaccion" type="relfk" layer="0"
+	 custom-color="#d22843"
 	 src-table="movimientos_contables.movimiento"
-	 dst-table="movimientos_contables.transaccion"
+	 dst-table="movimientos_contables.transaccion" reference-fk="fk_transaccion_movimiento"
 	 src-required="false" dst-required="false"/>
 
 </dbmodel>

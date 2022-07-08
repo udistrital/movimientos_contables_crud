@@ -76,6 +76,26 @@ func (c *MovimientoController) GetOne() {
 	c.ServeJSON()
 }
 
+// GetExistByCuenta ...
+// @Title Get if exist by cuenta
+// @Description get if exists mov by cuenta id
+// @Param	id		path 	string	true		"The key for staticblock"
+// @Success 200 {bool} bool
+// @Failure 404 not found resource
+// @router /exist/:id [get]
+func (c *MovimientoController) GetExistByCuenta() {
+	idStr := c.Ctx.Input.Param(":id")
+	v, err := models.GetExistMovimientosByCuentaId(idStr)
+	if err != nil {
+		logs.Error(err)
+		c.Data["mesaage"] = "Error service GetExistByCuenta: The request contains an incorrect parameter or no record exists"
+		c.Abort("404")
+	} else {
+		c.Data["json"] = map[string]interface{}{"Success": true, "Status": "200", "Message": "Request successful", "Data": v}
+	}
+	c.ServeJSON()
+}
+
 // GetAll ...
 // @Title Get All
 // @Description get Movimiento

@@ -115,6 +115,6 @@ ON DELETE RESTRICT ON UPDATE CASCADE;
 
 
 -- Permisos de usuario
-GRANT USAGE ON SCHEMA movimientos_contables TO desarrollooas;
-GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA movimientos_contables TO desarrollooas;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA movimientos_contables TO desarrollooas;
+-- GRANT USAGE ON SCHEMA movimientos_contables TO desarrollooas;
+-- GRANT SELECT, INSERT, UPDATE, DELETE ON ALL TABLES IN SCHEMA movimientos_contables TO desarrollooas;
+-- GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA movimientos_contables TO desarrollooas;
