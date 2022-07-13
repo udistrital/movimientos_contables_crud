@@ -6,10 +6,10 @@ import (
 	"github.com/astaxie/beego/plugins/cors"
 	_ "github.com/lib/pq"
 
-	apistatus "github.com/udistrital/utils_oas/apiStatusLib"
-	"github.com/udistrital/utils_oas/customerrorv2"
-
 	_ "github.com/udistrital/movimientos_contables_crud/routers"
+	apistatus "github.com/udistrital/utils_oas/apiStatusLib"
+	"github.com/udistrital/utils_oas/auditoria"
+	"github.com/udistrital/utils_oas/customerrorv2"
 )
 
 func main() {
@@ -39,5 +39,6 @@ func main() {
 	}))
 	beego.ErrorController(&customerrorv2.CustomErrorController{})
 	apistatus.Init()
+	auditoria.InitMiddleware()
 	beego.Run()
 }

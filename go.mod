@@ -5,7 +5,7 @@ go 1.17
 require (
 	github.com/astaxie/beego v1.12.3
 	github.com/lib/pq v1.10.3
-	github.com/udistrital/utils_oas v0.0.0-20211011160436-7fa8127363aa
+	github.com/udistrital/utils_oas v0.0.0-20220521085529-fbd949fcf4e2
 )
 
 require (
@@ -14,6 +14,7 @@ require (
 	github.com/golang/protobuf v1.5.2 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/matttproud/golang_protobuf_extensions v1.0.1 // indirect
+	github.com/patrickmn/go-cache v2.1.0+incompatible // indirect
 	github.com/pkg/errors v0.9.1 // indirect
 	github.com/prometheus/client_golang v1.10.0 // indirect
 	github.com/prometheus/client_model v0.2.0 // indirect
