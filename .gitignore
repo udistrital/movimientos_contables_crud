@@ -19,3 +19,6 @@ swagger/**
 # variables de entorno
 *.env
 !template.env
+
+go.mod
+go.sum
