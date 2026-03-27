@@ -5,7 +5,6 @@ go 1.25
 require (
 	github.com/astaxie/beego v1.12.3
 	github.com/lib/pq v1.10.9
-	github.com/udistrital/consecutivos_crud v1.0.0
 	github.com/udistrital/utils_oas v0.4.3
 )
 

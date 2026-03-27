@@ -7,7 +7,7 @@ import (
 	"github.com/astaxie/beego/plugins/cors"
 	_ "github.com/lib/pq"
 
-	_ "github.com/udistrital/consecutivos_crud/routers"
+	_ "github.com/udistrital/movimientos_contables_crud/routers"
 	apistatus "github.com/udistrital/utils_oas/apiStatusLib"
 	"github.com/udistrital/utils_oas/auditoria"
 	"github.com/udistrital/utils_oas/customerrorv2"
@@ -32,7 +32,7 @@ func main() {
 	allowedOrigins := []string{"*.udistrital.edu.co"}
 	if beego.BConfig.RunMode == beego.DEV {
 		allowedOrigins = []string{"*"}
-		orm.Debug = true // Solo para APIs CRUD
+		orm.Debug = true
 		beego.BConfig.WebConfig.DirectoryIndex = true
 		beego.BConfig.WebConfig.StaticDir["/swagger"] = "swagger"
 	}

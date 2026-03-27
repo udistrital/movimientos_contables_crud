@@ -371,8 +371,6 @@ github.com/stretchr/testify v1.8.4/go.mod h1:sz/lmYIOXD/1dqDmKjjqLyZ2RngseejIcXl
 github.com/syndtr/goleveldb v0.0.0-20160425020131-cfa635847112/go.mod h1:Z4AUp2Km+PwemOoO/VB5AOx9XSsIItzFjoJlOSiYmn0=
 github.com/syndtr/goleveldb v0.0.0-20181127023241-353a9fca669c/go.mod h1:Z4AUp2Km+PwemOoO/VB5AOx9XSsIItzFjoJlOSiYmn0=
 github.com/tmc/grpc-websocket-proxy v0.0.0-20170815181823-89b8d40f7ca8/go.mod h1:ncp9v5uamzpCO7NfCPTXjqaC+bZgJeR0sMTm6dMHP7U=
-github.com/udistrital/consecutivos_crud v1.0.0 h1:LxXWPElTyi72G3bxqDwhgca39oNbNJylCsPgd6OJAxQ=
-github.com/udistrital/consecutivos_crud v1.0.0/go.mod h1:Eimi8XjsX/Q/8s1ggNSPkZ2iDoMWZxndG7PhWU4vV2w=
 github.com/udistrital/utils_oas v0.4.3 h1:eYxRRDJWwcDGMs2vaBNOB1GUePNldjO7ck1uCGPw3WY=
 github.com/udistrital/utils_oas v0.4.3/go.mod h1:w/n1q4iefo6T332o+pdfD9i5E9xccW764VNJiw9HCpM=
 github.com/ugorji/go v0.0.0-20171122102828-84cb69a8af83/go.mod h1:hnLbHMwcvSihnDhEfx2/BzKp2xb0Y+ErdfYcrs9tkJQ=
